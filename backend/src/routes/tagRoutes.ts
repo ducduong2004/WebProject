@@ -5,11 +5,12 @@
  *  name: tag
  *  description: Everything about your Tags
  * 
+ * 
  */
 
 
 import express from 'express';
-import { addTag, deleteTagByID } from '../controller/tagDAO';
+import { addTag, deleteTagByID, getAllTags } from '../DAO/tagDAO';
 import swaggerJSDoc from 'swagger-jsdoc';
 const router = express.Router();
 
@@ -60,5 +61,23 @@ router.put('/api/addTag', addTag );
  *         description: Tag added successfully
  */
 router.delete('/api/deleteTagByID', deleteTagByID ); 
+
+
+/**
+ * @swagger
+ * /api/getAllTags:
+ *   get:
+ *     tags: 
+ *      - tag
+ *     summary: Retrieve a list of video
+ *     responses:
+ *       200:
+ *         description: A list of video sorted by like.
+ *       400:
+ *         description: Could not get Tag List
+ */
+router.get('/api/getAllTags', getAllTags);
+
+
 
 export default router;
