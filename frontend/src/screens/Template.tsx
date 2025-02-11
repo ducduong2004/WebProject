@@ -1,6 +1,6 @@
 import PreviewPanel from "../components/PreviewPanel";
 import EditPanel from "../components/EditPanel";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IVideo } from "../interface/type";
@@ -8,7 +8,6 @@ import axios from "axios";
 import { useGLTF } from "@react-three/drei";
 import { ObjectMap } from "@react-three/fiber";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-
 
 export default function Template() {
   const { _id } = useParams<string>();
@@ -26,9 +25,11 @@ export default function Template() {
    *
    *
    */
-  const [model, setModel] = useState<GLTF & ObjectMap>(gltf as unknown as GLTF & ObjectMap); // cách ép kiểu dâm tà
+  const [model, setModel] = useState<GLTF & ObjectMap>(
+    gltf as unknown as GLTF & ObjectMap
+  ); // cách ép kiểu dâm tà
 
-  // get video data from db
+  // lấy thông tin về video bằng Id từ backend
   const getvideoData = async (_id: string) => {
     try {
       const response = await axios.get("/api/getVidById", { params: { _id } });
@@ -60,11 +61,7 @@ export default function Template() {
             justifyContent: "center",
           }}
         >
-          <PreviewPanel
-            _id={vidData?._id}
-            vidData={vidData}
-            model={model}
-          />
+          <PreviewPanel _id={vidData?._id} vidData={vidData} model={model} />
         </Paper>
         <Paper
           elevation={3}
@@ -73,14 +70,10 @@ export default function Template() {
             padding: 2,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            // justifyContent: "center",
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.5)", // Shadow for depth
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            Edit Panel
-          </Typography>
-          {/* need to adjust */}
           <EditPanel model={model} setModel={setModel} />
         </Paper>
       </Box>
